@@ -9,6 +9,11 @@ repositories {
 
 dependencies {
     implementation 'com.google.guava:guava:27.1-jre'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.0.1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.9'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.2'
+
+
 
     // Use JUnit Jupiter API for testing.
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.4.2'
@@ -18,11 +23,9 @@ dependencies {
 }
 
 application {
-    // Define the main class for the application
     mainClassName = 'ch.danielsuter.circleci.App'
 }
 
 test {
-    // Use junit platform for unit tests
     useJUnitPlatform()
 }
