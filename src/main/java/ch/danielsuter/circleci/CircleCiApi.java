@@ -2,6 +2,7 @@ package ch.danielsuter.circleci;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,6 +31,8 @@ public class CircleCiApi {
         this.project = project;
         this.branch = branch;
 
+        // Support for Java 8 dates
+        objectMapper.registerModule(new JavaTimeModule());
     }
 
     public List<Artifact> getArtifacts(int buildNumber) {

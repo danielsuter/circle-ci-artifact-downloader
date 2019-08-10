@@ -1,6 +1,7 @@
 package ch.danielsuter.circleci;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +13,10 @@ public class App {
 
         CircleCiApi api = new CircleCiApi(token, "bitbucket", "Sanix", "shinseikan-crm", "develop");
 
-        List<Build> builds = api.getRecentBuilds(0, 1, "succesful");
+        List<Build> builds = api.getRecentBuilds(0, 100, "succesful");
         List<Build> backups = builds.stream()
                 .filter(build -> build.workflows.workflowName.equals("database_backup"))
+                .filter(build -> build.startTime.isAfter(LocalDate.of(2019, 8, 9)))
                 .collect(Collectors.toList());
         System.out.println("Number of backups: " + backups.size());
 
