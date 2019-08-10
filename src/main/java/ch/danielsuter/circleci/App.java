@@ -12,14 +12,14 @@ public class App {
 
         CircleCiApi api = new CircleCiApi(token, "bitbucket", "Sanix", "shinseikan-crm", "develop");
 
-        List<Build> builds = api.getRecentBuilds(0, 100, "succesful");
+        List<Build> builds = api.getRecentBuilds(0, 1, "succesful");
         List<Build> backups = builds.stream()
-                .filter(build -> build.workflows.workflow_name.equals("database_backup"))
+                .filter(build -> build.workflows.workflowName.equals("database_backup"))
                 .collect(Collectors.toList());
         System.out.println("Number of backups: " + backups.size());
 
         List<Artifact> artifacts = backups.parallelStream()
-                .map(backup -> backup.build_num)
+                .map(backup -> backup.buildNumber)
                 .map(buildNumber -> api.getArtifacts(buildNumber).get(0))
                 .collect(Collectors.toList());
         System.out.println("Number of urls: " + artifacts.size());
