@@ -13,6 +13,7 @@ public class App {
     public static void main(String[] args) {
 
         try (FileInputStream configStream = new FileInputStream("configuration.properties")) {
+
             Properties configuration = new Properties();
             configuration.load(configStream);
 
@@ -24,10 +25,12 @@ public class App {
             String branch = configuration.getProperty("branch");
             CircleCiApi api = new CircleCiApi(token, vcs, user, project, branch);
 
+            System.out.println("Reading jobs...");
             List<Build> builds = api.getRecentBuilds(0, 100, "successful");
+            System.out.println("Got " + builds.size() + " jobs");
             List<Build> backups = builds.stream()
                     .filter(build -> build.workflows.workflowName.equals("database_backup"))
-                    .filter(build -> build.startTime.isAfter(LocalDate.of(2020, 4, 12)))
+                    .filter(build -> build.startTime.isAfter(LocalDate.of(2020, 4, 1)))
                     .collect(Collectors.toList());
             System.out.println("Number of backups: " + backups.size());
 
